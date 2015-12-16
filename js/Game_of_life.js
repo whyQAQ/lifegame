@@ -1,13 +1,13 @@
 var Game_of_life = (function(){
     var SIZE = 10;
-    var X_MAX = 30;
-    var Y_MAX = 20;
+    var X_MAX = 50;
+    var Y_MAX = 40;
     var LIVE_CELL = "#d05257";
     var LIVE = true;
     var DEAD = false;
-    var TURN_SPEED = 500; //ms
+    var TURN_SPEED = 300; //ms
     var cells = new Array(Y_MAX*X_MAX);
-    var aaa = {};
+    var cache = {};
     var canvas;
     var pen;
 
@@ -68,23 +68,24 @@ var Game_of_life = (function(){
             }
 
             if(j == 3 && cells[i] == DEAD){
-                aaa[i] = LIVE;
+                cache[i] = LIVE;
             }
 
             if((j< 2 || j > 3) && cells[i] == LIVE){
-                aaa[i] = DEAD;
+                cache[i] = DEAD;
             }
         }
     }
 
-    function bbb(){
+    function apply_cache(){
         for(var i= 0; i<cells.length;i++){
-            for(name in aaa){
+            for(name in cache){
                 if(i == name){
-                    cells[i] = aaa[name];
+                    cells[i] = cache[name];
                 }
             }
         }
+        cache = {};
     }
 
     //清除画布
@@ -103,21 +104,41 @@ var Game_of_life = (function(){
         canvas = document.getElementById("game");
         pen = canvas.getContext("2d");
         dead_cells();
-        cells[125]= LIVE;
-        cells[126]= LIVE;
-        cells[127]= LIVE;
 
-        cells[255]= LIVE;
-        cells[253]= LIVE;
-        cells[285]= LIVE;
-        cells[225]= LIVE;
-        cells[284]= LIVE;
+        var cell_list = [
+            [12,12],
+            [12,13],
+            [12,14],
 
-        cells[355]= LIVE;
-        cells[353]= LIVE;
-        cells[385]= LIVE;
-        cells[325]= LIVE;
-        cells[354]= LIVE;
+            [21,15],
+            [20,15],
+            [22,15],
+            [21,16],
+            [21,17],
+
+            [5,5],
+            [6,6],
+            [4,7],
+            [5,7],
+            [6,7],
+
+            [35,5],
+            [34,6],
+            [34,7],
+            [35,7],
+            [36,7],
+
+            [5,35],
+            [6,34],
+            [6,33],
+            [5,33],
+            [4,33]
+        ];
+
+        for (var i = 0; i<cell_list.length; i++) {
+            var point = cell_list[i];
+            cells[make_index(point[0], point[1])] = LIVE;
+        }
     }
 
 
@@ -135,8 +156,7 @@ var Game_of_life = (function(){
     function main_loop(){
         render();
         is_live();
-        bbb();
-        alert("a");
+        apply_cache();
         setTimeout(main_loop,TURN_SPEED);
     }
 
@@ -145,7 +165,8 @@ var Game_of_life = (function(){
         main_loop();
     }
 
-    return{
+    return {
         start: start
-    }
+    };
+
 })();
