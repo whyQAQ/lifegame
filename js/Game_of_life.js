@@ -5,7 +5,7 @@ var Game_of_life = (function(){
     var LIVE_CELL = "#d05257";
     var LIVE = true;
     var DEAD = false;
-    var TURN_SPEED = 300; //ms
+    var TURN_SPEED = 100; //ms
     var cells = new Array(Y_MAX*X_MAX);
     var cache = {};
     var canvas;

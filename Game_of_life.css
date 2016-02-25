@@ -1,5 +1,5 @@
 body{
-    background-color: #ffdeb9;
+    background-color: rgb(255, 250, 227);
 }
 
 #game{
@@ -9,5 +9,4 @@ body{
     margin-top: 5%;
     border: 1px solid #62889F;
     border-radius: 5px;
-    box-shadow: 5px 5px 5px #353437;
 }
